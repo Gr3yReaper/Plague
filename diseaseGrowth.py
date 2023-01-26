@@ -4,6 +4,6 @@ import math
 ACTIVE_PEOPLE = 0.7
 
 
-def update(current, activityLevel):
-    current = current * activityLevel * ACTIVE_PEOPLE
+def update(current, activityLevel, awareness):
+    current = (current * activityLevel * ACTIVE_PEOPLE) / awareness
     return math.ceil(current)
