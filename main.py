@@ -3,9 +3,10 @@ from Country import Country, Activity, Awareness  # Seems to solve the error of 
 
 countries = [Country("UK", 6733000000, 10, Activity.SLIGHT, Awareness.SLIGHT), Country("Russia", 1434000000, 0, Activity.UNRESTRICTED, Awareness.UNAWARE)]
 
-while not any([n.getInfected() >= 100 for n in countries]):
+while not any([n.getInfected() >= 1000 for n in countries]):
     # Calculates the new infected numbers for each country then updates the objects
-    newInfected = [diseaseGrowth.update(n.getInfected(), n.getActivity().value, n.getAwareness().value) for n in countries]
+    newInfected = [diseaseGrowth.update(n.getInfected(), n.getActivity().value,
+                                        n.getAwareness().value) for n in countries]
     for x in range(len(countries)):
         countries[x].updateInfected(newInfected[x])
 
