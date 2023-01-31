@@ -40,6 +40,9 @@ class Medical(Enum):
     MASSIVE = 0.7
 
 
+PERIOD = 14  # How long until no longer positive
+
+
 class Country:
     def __init__(self, name, population, infected, activity, awareness, protective, medical):
         self.name = name
@@ -49,7 +52,7 @@ class Country:
         self.awareness = awareness
         self.protective = protective
         self.medical = medical
-        self.history = Queue(maxsize=14)
+        self.history = Queue(maxsize=PERIOD)
         self.history.put(infected)
 
     def get_name(self):
