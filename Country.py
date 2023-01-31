@@ -8,6 +8,9 @@ class Activity(Enum):
     RESTRICTED = 0.5
     LOCKDOWN = 0
 
+# These numbers will need to be tweaked, at the moment highest division is 2.2, maybe can adjust based on infected value
+# for testing though it is fine.
+
 
 class Awareness(Enum):
     UNAWARE = 0.5

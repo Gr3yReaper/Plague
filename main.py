@@ -9,9 +9,12 @@ countries = [Country("UK", 6733000000, 1, Activity.SLIGHT, Awareness.SLIGHT,
 while not any([n.get_infected() >= 1000 for n in countries]):
     # Calculates the new infected numbers for each country then updates the objects
     newInfected = [diseaseGrowth.update(n.get_infected(), n.get_activity().value,
-                                        n.get_awareness().value) for n in countries]
+                                        n.get_awareness().value, n.get_protective().value,
+                                        n.get_medical().value) for n in countries]
+
+    # Modified algorithm to add people as infected
     for x in range(len(countries)):
-        countries[x].update_infected(newInfected[x])
+        countries[x].update_infected(newInfected[x] + countries[x].get_infected())
 
     # Need amount of ports and airports per country
     # Random chance one will start (pick a random country with a free port/ airport
