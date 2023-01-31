@@ -1,4 +1,5 @@
 from enum import Enum
+from queue import Queue
 
 
 class Activity(Enum):
@@ -48,6 +49,8 @@ class Country:
         self.awareness = awareness
         self.protective = protective
         self.medical = medical
+        self.history = Queue(maxsize=14)
+        self.history.put(infected)
 
     def get_name(self):
         return self.name
@@ -71,7 +74,13 @@ class Country:
         return self.medical
 
     def update_infected(self, infected):
-        self.infected = infected
+        self.infected = self.infected + infected
+        if self.history.full():
+            not_infected = self.history.get()
+            self.history.put(infected)
+            self.infected = self.infected - not_infected
+        else:
+            self.history.put(infected)
 
     def update_population(self, population):
         self.population = population
