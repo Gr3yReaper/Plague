@@ -18,37 +18,69 @@ class Awareness(Enum):
     ALL = 1.0
 
 
+class Protective(Enum):
+    NONE = 0.0
+    LITTLE = 0.2
+    MODERATE = 0.3
+    HEAVY = 0.4
+    MANDATORY = 0.5
+
+
+class Medical(Enum):
+    POOR = 0.1
+    FEW = 0.2
+    MODERATE = 0.3
+    MIDDLE = 0.4
+    ADVANCED = 0.5
+    HIGH = 0.6
+    MASSIVE = 0.7
+
+
 class Country:
-    def __init__(self, name, population, infected, activity, awareness):
+    def __init__(self, name, population, infected, activity, awareness, protective, medical):
         self.name = name
         self.population = population
         self.infected = infected
         self.activity = activity
         self.awareness = awareness
+        self.protective = protective
+        self.medical = medical
 
-    def getName(self):
+    def get_name(self):
         return self.name
 
-    def getInfected(self):
+    def get_infected(self):
         return self.infected
 
-    def getPopulation(self):
+    def get_population(self):
         return self.population
 
-    def getActivity(self):
+    def get_activity(self):
         return self.activity
 
-    def getAwareness(self):
+    def get_awareness(self):
         return self.awareness
 
-    def updateInfected(self, infected):
+    def get_protective(self):
+        return self.protective
+
+    def get_medical(self):
+        return self.medical
+
+    def update_infected(self, infected):
         self.infected = infected
 
-    def updatePopulation(self, population):
+    def update_population(self, population):
         self.population = population
 
-    def updateActivity(self, activity):
+    def update_activity(self, activity):
         self.activity = activity
 
-    def updateAwareness(self, awareness):
+    def update_awareness(self, awareness):
         self.awareness = awareness
+
+    def update_protective(self, protective):
+        self.protective = protective
+
+    def update_medical(self, medical):
+        self.medical = medical

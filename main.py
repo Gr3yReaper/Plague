@@ -1,18 +1,22 @@
 import diseaseGrowth
-from Country import Country, Activity, Awareness  # Seems to solve the error of object creation in other classes
+from Country import *  # Seems to solve the error of object creation in other classes
 
-countries = [Country("UK", 6733000000, 10, Activity.SLIGHT, Awareness.SLIGHT), Country("Russia", 1434000000, 0, Activity.UNRESTRICTED, Awareness.UNAWARE)]
+countries = [Country("UK", 6733000000, 1, Activity.SLIGHT, Awareness.SLIGHT,
+                     Protective.LITTLE, Medical.HIGH),
+             Country("Russia", 1434000000, 0, Activity.UNRESTRICTED, Awareness.UNAWARE,
+                     Protective.NONE, Medical.ADVANCED)]
 
-while not any([n.getInfected() >= 1000 for n in countries]):
+while not any([n.get_infected() >= 1000 for n in countries]):
     # Calculates the new infected numbers for each country then updates the objects
-    newInfected = [diseaseGrowth.update(n.getInfected(), n.getActivity().value,
-                                        n.getAwareness().value) for n in countries]
+    newInfected = [diseaseGrowth.update(n.get_infected(), n.get_activity().value,
+                                        n.get_awareness().value) for n in countries]
     for x in range(len(countries)):
-        countries[x].updateInfected(newInfected[x])
+        countries[x].update_infected(newInfected[x])
 
     # Need amount of ports and airports per country
     # Random chance one will start (pick a random country with a free port/ airport
     # around 0.8% when unaware, 0.5 when slight, 0.3 when aware, 0.1 when reduced, and 0 for lockdown rough values
+    # Implement queue to remove people after 14 days, originally instantiated with 1 as that is starting infected.
 
-print([n.getInfected() for n in countries])
+print([n.get_infected() for n in countries])
 print("out of loop")
