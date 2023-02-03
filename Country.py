@@ -1,5 +1,6 @@
 from enum import Enum
 from queue import Queue
+from AirPort import *
 
 
 class Activity(Enum):
@@ -54,6 +55,7 @@ class Country:
         self.medical = medical
         self.history = Queue(maxsize=PERIOD)
         self.history.put(infected)
+        self.airport = None
 
     def get_name(self):
         return self.name
@@ -75,6 +77,9 @@ class Country:
 
     def get_medical(self):
         return self.medical
+
+    def get_airport(self):
+        return self.airport
 
     def update_infected(self, infected):
         self.infected = self.infected + infected
@@ -99,3 +104,6 @@ class Country:
 
     def update_medical(self, medical):
         self.medical = medical
+
+    def set_airport(self, airport):
+        self.airport = airport
