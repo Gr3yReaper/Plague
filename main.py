@@ -3,13 +3,16 @@ from Country import *
 from AirPort import *
 
 BASE_ACTIVITY = 80
-AIRPORT_COUNTRIES = ["UK", "Russia"]
-AIRPORT_DETAILS = [["UK", ["Russia"], BASE_ACTIVITY], ["Russia", ["UK"], BASE_ACTIVITY]]
+AIRPORT_COUNTRIES = ["UK", "Russia", "Russia 2"]
+AIRPORT_DETAILS = [["UK", ["Russia", "Russia 2"], BASE_ACTIVITY], ["Russia", ["UK", "Russia 2"], BASE_ACTIVITY],
+                   ["Russia 2", [""], BASE_ACTIVITY]]
 PORT_COUNTRIES = ["UK", "Russia"]
 
 countries = [Country("UK", 6733000000, 1, Activity.SLIGHT, Awareness.SLIGHT,
                      Protective.LITTLE, Medical.HIGH),
              Country("Russia", 1434000000, 0, Activity.UNRESTRICTED, Awareness.UNAWARE,
+                     Protective.MANDATORY, Medical.ADVANCED),
+             Country("Russia 2", 1434000000, 0, Activity.UNRESTRICTED, Awareness.UNAWARE,
                      Protective.MANDATORY, Medical.ADVANCED)]
 airport_list = []
 
@@ -37,7 +40,8 @@ while not any([n.get_infected() >= 10000 for n in countries]):
         if flight_log[x] is not None:
             for y in range(len(countries)):
                 if countries[y].get_name() == flight_log[x] and countries[y].get_infected() == 0:
-                    countries[y].update_infected(1) # Set as 1 for now to start infection
+                    countries[y].update_infected(1)# Set as 1 for now to start infection
+                    print("Plane left: " + AIRPORT_COUNTRIES[x] + ", Headed for: " + countries[y].get_name())
 
     # One airport/ boat per country for now
     # Random chance one will start (pick a random country with a free port/ airport
