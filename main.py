@@ -40,7 +40,7 @@ while not any([n.get_infected() >= 10000 for n in countries]):
         if flight_log[x] is not None:
             for y in range(len(countries)):
                 if countries[y].get_name() == flight_log[x] and countries[y].get_infected() == 0:
-                    countries[y].update_infected(1)# Set as 1 for now to start infection
+                    countries[y].update_infected(1)  # Set as 1 for now to start infection
                     print("Plane left: " + AIRPORT_COUNTRIES[x] + ", Headed for: " + countries[y].get_name())
 
     # One airport/ boat per country for now
