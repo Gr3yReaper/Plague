@@ -1,9 +1,9 @@
-import diseaseGrowth
 from Country import *
 from AirPort import *
 import gameLoop
+from threading import Thread
 
-BASE_ACTIVITY = 80
+BASE_ACTIVITY = 20
 AIRPORT_COUNTRIES = ["UK", "Russia", "Russia 2"]
 AIRPORT_DETAILS = [["UK", ["Russia", "Russia 2"], BASE_ACTIVITY], ["Russia", ["UK", "Russia 2"], BASE_ACTIVITY],
                    ["Russia 2", [""], BASE_ACTIVITY]]
@@ -28,5 +28,15 @@ for x in range(len(countries)):
         countries[x].set_airport(airport)
         airport_list.append(countries[x])
 
-gameLoop.run(countries, airport_list, AIRPORT_COUNTRIES)
+
+def game():
+    gameLoop.run(countries, airport_list, AIRPORT_COUNTRIES)
+
+# gameLoop.run(countries, airport_list, AIRPORT_COUNTRIES)
+
+
+game_thread = Thread(target=game)
+
+game_thread.start()
+game_thread.join()
 print("out of loop")

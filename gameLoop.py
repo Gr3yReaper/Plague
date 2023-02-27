@@ -1,9 +1,13 @@
 import diseaseGrowth
+import pygame
 from Country import *
 from AirPort import *
 
 
 def run(countries, airport_list, airport_countries):
+    pygame.init()
+    clock = pygame.time.Clock()
+
     while not any([n.get_infected() >= 10000 for n in countries]):
         # Calculates the new infected numbers for each country then updates the objects
         # Work out rough chance of said airport travelling, randomly pick location etc
@@ -26,3 +30,4 @@ def run(countries, airport_list, airport_countries):
         # Random chance one will start (pick a random country with a free port/ airport
         # around 0.8% when unaware, 0.5 when slight, 0.3 when aware, 0.1 when reduced, and 0 for lockdown rough values
         print([n.get_infected() for n in countries])
+        clock.tick(5)
