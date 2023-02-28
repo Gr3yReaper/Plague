@@ -4,9 +4,9 @@ from AirPort import *
 
 
 class Activity(Enum):
-    UNRESTRICTED = 2
-    SLIGHT = 1.5
-    LOW_RESTRICTION = 1
+    UNRESTRICTED = 1.5
+    SLIGHT = 1.2
+    LOW_RESTRICTION = 0.8
     RESTRICTED = 0.5
     LOCKDOWN = 0
 
