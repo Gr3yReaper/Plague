@@ -7,6 +7,7 @@ from AirPort import *
 def run(countries, airport_list, airport_countries):
     pygame.init()
     clock = pygame.time.Clock()
+    display = pygame.display.set_mode((300, 300))
 
     while not any([n.get_infected() >= 1000000 for n in countries]):
         # Calculates the new infected numbers for each country then updates the objects
@@ -30,4 +31,7 @@ def run(countries, airport_list, airport_countries):
         # Random chance one will start (pick a random country with a free port/ airport
         # around 0.8% when unaware, 0.5 when slight, 0.3 when aware, 0.1 when reduced, and 0 for lockdown rough values
         print([n.get_infected() for n in countries])
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                print("n has been pressed")
         clock.tick(10)
