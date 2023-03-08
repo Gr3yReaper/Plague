@@ -33,5 +33,6 @@ def run(countries, airport_list, airport_countries):
         print([n.get_infected() for n in countries])
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                print("n has been pressed")
+                print("a key has been pressed")
+                countries[0].update_activity(Activity.RESTRICTED)
         clock.tick(10)
