@@ -34,5 +34,6 @@ def run(countries, airport_list, airport_countries):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 print("a key has been pressed")
+                # airport_list = "" using this can shut down airports
                 countries[0].update_activity(Activity.RESTRICTED)
         clock.tick(10)
