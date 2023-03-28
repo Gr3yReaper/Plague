@@ -32,8 +32,13 @@ def run(countries, airport_list, airport_countries):
         # around 0.8% when unaware, 0.5 when slight, 0.3 when aware, 0.1 when reduced, and 0 for lockdown rough values
         print([n.get_infected() for n in countries])
         for event in pygame.event.get():
+            # This method checks if the event is a pressing of a key (any key)
             if event.type == pygame.KEYDOWN:
-                print("a key has been pressed")
-                # airport_list = "" using this can shut down airports
-                countries[0].update_activity(Activity.RESTRICTED)
+                # This then elaborates it further by checking for the specific key pressed.
+                if event.key == pygame.K_p:
+                    print("The p key has been pressed")
+                    # airport_list = "" using this can shut down airports
+                else:
+                    print("a key has been pressed")
+                    countries[0].update_activity(Activity.RESTRICTED)
         clock.tick(10)
