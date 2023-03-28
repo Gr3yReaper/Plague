@@ -1,13 +1,6 @@
 from enum import Enum
 
 
-class Category(Enum):
-    Quarantine = 1
-    Response = 2
-    Operation = 3
-    Unique = 4
-
-
 class StatIncrease(Enum):
     Infection_Rate = 1
     Research_Speed = 2
@@ -17,9 +10,8 @@ class StatIncrease(Enum):
 
 
 class Upgrade:
-    def __init__(self, name, category, description, cost, stats):
+    def __init__(self, name, description, cost, stats):
         self.name = name
-        self.category = category
         self.description = description
         self.cost = cost
         # stats are which attributes are affected by an upgrade
@@ -28,9 +20,6 @@ class Upgrade:
 
     def get_name(self):
         return self.name
-
-    def get_category(self):
-        return self.category
 
     def get_description(self):
         return self.description
@@ -46,9 +35,6 @@ class Upgrade:
 
     def set_name(self, name):
         self.name = name
-
-    def set_category(self, category):
-        self.category = category
 
     def set_description(self, description):
         self.description = description
@@ -78,6 +64,3 @@ class Upgrade:
         else:
             print("Failure as upgrade has not been purchased")
         return current
-
-
-

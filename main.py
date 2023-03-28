@@ -1,5 +1,7 @@
 from Country import *
 from AirPort import *
+from Upgrades.Response import *
+
 import gameLoop
 from threading import Thread
 
@@ -7,6 +9,20 @@ BASE_ACTIVITY = 20
 AIRPORT_COUNTRIES = ["UK", "Russia", "Russia 2"]
 AIRPORT_DETAILS = [["UK", ["Russia", "Russia 2"], BASE_ACTIVITY], ["Russia", ["UK", "Russia 2"], BASE_ACTIVITY],
                    ["Russia 2", [""], BASE_ACTIVITY]]
+
+# Reduced list of upgrades will add more when needed
+UPGRADE_LIST = ["RESPONSE", ["Hand Washing", "Reduces infection by promoting hand washing", 6,
+                             SubCategory.Infection_Prevention, ["protective", 1]],
+                            ["Public Awareness", "Promote personal responsibility for hygiene, reduces infection", 3,
+                             SubCategory.Infection_Prevention, ["awareness", 1]],
+                            ["Disinfectant Supplies", "Distribute bleach and cleaning supplies, reduce infection", 5,
+                             SubCategory.Infection_Prevention, ["protective", 1]],
+                            ["Self-Isolation", "Symptomatic people can not interact with others, reduce infection", 5,
+                             SubCategory.Infection_Prevention, ["protective", 1]],
+                            ["Social Distancing",
+                             "People need to stay 2m away from each other, reduce infection, increased non-compliance",
+                             9, SubCategory.Infection_Prevention, ["protective", 2, "non-compliance", 1]]
+                ]
 
 PORT_COUNTRIES = ["UK", "Russia"]
 
@@ -31,6 +47,7 @@ for x in range(len(countries)):
 
 def game():
     gameLoop.run(countries, airport_list, AIRPORT_COUNTRIES)
+
 
 # gameLoop.run(countries, airport_list, AIRPORT_COUNTRIES)
 
