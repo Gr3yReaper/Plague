@@ -11,17 +11,52 @@ AIRPORT_DETAILS = [["UK", ["Russia", "Russia 2"], BASE_ACTIVITY], ["Russia", ["U
                    ["Russia 2", [""], BASE_ACTIVITY]]
 
 # Reduced list of upgrades will add more when needed
-UPGRADE_LIST = ["RESPONSE", ["Hand Washing", "Reduces infection by promoting hand washing", 6,
-                             SubCategory.Infection_Prevention, ["protective", 1]],
+# Will add vaccine creation/ manufacture upgrades as needed.
+
+UPGRADE_LIST = ["OPERATION", ["Investigate Outbreaks", "Search For Local Disease Outbreaks", 4,
+                              [], []],
+
+                             ["Deploy Field Operatives", "Team to help surveil disease and reduce infection", 2,
+                              ["protective", 1], ["Investigate Outbreaks"]],
+
+                             ["Emergency Care", "Field Operatives help reduce fatality rate", 5,
+                              ["fatality", 1], ["Deploy Field Operatives"]],
+
+                "RESPONSE", ["Hand Washing", "Reduces infection by promoting hand washing", 6,
+                             SubCategory.Infection_Prevention, ["protective", 1], ["Investigate Outbreaks"]],
+
                             ["Public Awareness", "Promote personal responsibility for hygiene, reduces infection", 3,
-                             SubCategory.Infection_Prevention, ["awareness", 1]],
+                             SubCategory.Infection_Prevention, ["awareness", 1], ["Investigate Outbreaks"]],
+
                             ["Disinfectant Supplies", "Distribute bleach and cleaning supplies, reduce infection", 5,
-                             SubCategory.Infection_Prevention, ["protective", 1]],
+                             SubCategory.Infection_Prevention, ["protective", 1], ["Investigate Outbreaks"]],
+
                             ["Self-Isolation", "Symptomatic people can not interact with others, reduce infection", 5,
-                             SubCategory.Infection_Prevention, ["protective", 1]],
+                             SubCategory.Infection_Prevention, ["protective", 1], ["Hand Washing", "Public Awareness"]],
+
                             ["Social Distancing",
                              "People need to stay 2m away from each other, reduce infection, increased non-compliance",
-                             9, SubCategory.Infection_Prevention, ["protective", 2, "non-compliance", 1]]
+                             9, SubCategory.Infection_Prevention, ["awareness", 1, "protective", 1, "non-compliance", 1],
+                             ["Self-Isolation"]],
+
+                            ["Local Lockdowns",
+                             "Force lockdowns in areas, reduce infection significantly but increase non-compliance",
+                             20, SubCategory.Infection_Prevention, ["protective", 2, "awareness", 1, "non-compliance", 1],
+                             ["Social Distancing"]],
+
+                            ["PPE Package 1",
+                             "Distribute personal protective equipment, reduce infection and slightly fatality rate",
+                             7, SubCategory.Infection_Prevention, ["protective", 1, "fatality", 0.5],
+                             ["Hand Washing", "Disinfectant Supplies"]],
+
+                            ["PPE Package 2",
+                             "Distribute personal protective equipment, reduce infection and slightly fatality rate",
+                             13, SubCategory.Infection_Prevention, ["protective", 1, "fatality", 0.5], ["PPE Package 1"]],
+
+                            ["Mask Wearing", "People must wear masks, significantly reduce infection", 1,
+                             SubCategory.Infection_Prevention, ["protective", 1, "awareness", 2],
+                             ["PPE Package 2", "Social Distancing"]]
+
                 ]
 
 PORT_COUNTRIES = ["UK", "Russia"]

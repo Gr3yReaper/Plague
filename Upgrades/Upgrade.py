@@ -10,12 +10,13 @@ class StatIncrease(Enum):
 
 
 class Upgrade:
-    def __init__(self, name, description, cost, stats):
+    def __init__(self, name, description, cost, stats, requirements):
         self.name = name
         self.description = description
         self.cost = cost
         # stats are which attributes are affected by an upgrade
         self.stats = stats
+        self.requirements = requirements
         self.unlocked = False
 
     def get_name(self):
@@ -32,6 +33,9 @@ class Upgrade:
 
     def get_stats(self):
         return self.stats
+
+    def get_requirements(self):
+        return self.requirements
 
     def set_name(self, name):
         self.name = name

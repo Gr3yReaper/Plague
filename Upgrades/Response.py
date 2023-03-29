@@ -11,8 +11,8 @@ class SubCategory(Enum):
 
 
 class Response(Upgrade):
-    def __init__(self, name, description, cost, sub_category, stats):
-        super().__init__(name, description, cost, stats)
+    def __init__(self, name, description, cost, sub_category, stats, requirements):
+        super().__init__(name, description, cost, stats, requirements)
         self.sub_category = sub_category
 
     def get_sub_category(self):
