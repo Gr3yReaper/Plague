@@ -1,5 +1,5 @@
-import Upgrade
-from Upgrade import *
+import Upgrades.Upgrade
+from Upgrades.Upgrade import *
 from enum import Enum
 
 
