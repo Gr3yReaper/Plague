@@ -12,6 +12,7 @@ def run(countries, airport_list, airport_countries):
     while not any([n.get_infected() >= 1000000 for n in countries]):
         # Calculates the new infected numbers for each country then updates the objects
         # Work out rough chance of said airport travelling, randomly pick location etc
+        # At 1 million should have 5% research without any other upgrades.
         flight_log = ([n.get_airport().flight(n.get_infected()) for n in airport_list])
         new_infected = [diseaseGrowth.update(n.get_infected(), n.get_activity().value,
                                              n.get_awareness().value, n.get_protective().value,
@@ -33,6 +34,7 @@ def run(countries, airport_list, airport_countries):
         print([n.get_infected() for n in countries])
         for event in pygame.event.get():
             # This method checks if the event is a pressing of a key (any key)
+
             if event.type == pygame.KEYDOWN:
                 # This then elaborates it further by checking for the specific key pressed.
                 if event.key == pygame.K_p:
