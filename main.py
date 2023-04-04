@@ -30,6 +30,41 @@ UPGRADE_LIST = ["OPERATION", [Operation("Investigate Outbreaks", "Search For Loc
                 [Operation("Vaccine Research", "Start researching a cure for the disease", 10,
                  ["research", True, "research_speed", 1], ["Investigate Outbreaks"])],
 
+                [Operation("Accelerated Research", "Round the clock working, research speed increased", 9,
+                           ["research_speed", 1], ["Vaccine Research"])],
+
+                [Operation("Global Research Treaty", "Transparent information exchange between countries", 21,
+                           ["research_speed", 2], ["Accelerated Research"])],
+
+                [Operation("Field Research", "Field Operatives help research cure", 7,
+                           ["research_speed", 1], ["Vaccine Research"])],
+
+                [Operation("Furlough Schemes", "Reduce financial stress by paying staff wages, decreased non-compliance", 7
+                           ["non-compliance", 1], ["Investigate Outbreaks"])],
+
+                [Operation("Adapt Society", "Provide resources to accommodate new normal for education and wellness", 10
+                           ["non-compliance", 1], ["Furlough Schemes"])],
+
+                [Operation("Mortgage and Rent Relief", "Freeze mortgage and rent payments and ban evictions", 13
+                           ["non-compliance", 1], ["Adapt Society"])],
+
+                [Operation("National Stimulus", "Implement tax cuts and business loans, decreases non-compliance", 18
+                           ["non-compliance", 1], ["Mortgage and Rent Relief"])],
+
+                [Operation("Authority 1",
+                           "Brief world leaders on importance of response to pandemic, slightly increased authority", 7
+                           ["authority", 1], ["Investigate Outbreaks"])],
+
+                [Operation("Authority 2",
+                           "Make pleas for global co-operation and coordination to contain pandemic, significant authority increase",
+                           13, ["authority", 2], ["Authority 1"])],
+
+                [Operation("Authority 3",
+                           "Emphasis world threat of pandemic, massively increased authority", 18
+                           ["authority", 3], ["Investigate Outbreaks"])],
+
+                # Could add fake news to freeze authority but will be left for now.
+
                 "RESPONSE", [Response("Hand Washing", "Reduces infection by promoting hand washing", 6,
                                       SubCategory.Infection_Prevention, ["protective", 1], ["Investigate Outbreaks"])],
 
