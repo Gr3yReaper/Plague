@@ -1,11 +1,11 @@
 from Country import *
 from AirPort import *
-import Upgrades.Response
 
 import gameLoop
 from threading import Thread
 
 from Upgrades.Response import *
+from Upgrades.Operation import *
 
 BASE_ACTIVITY = 20
 AIRPORT_COUNTRIES = ["UK", "Russia", "Russia 2"]
@@ -15,17 +15,20 @@ AIRPORT_DETAILS = [["UK", ["Russia", "Russia 2"], BASE_ACTIVITY], ["Russia", ["U
 # Reduced list of upgrades will add more when needed
 # Will add vaccine creation/ manufacture upgrades as needed.
 
-UPGRADE_LIST = ["OPERATION", ["Investigate Outbreaks", "Search For Local Disease Outbreaks", 4,
-                              [], []],
+# Upgrades need to be added in list in form of
+# Upgrade_Tree_Name(Title, Description, Cost, [Stats], [Unlock_Requirements]
 
-                ["Deploy Field Operatives", "Team to help surveil disease and reduce infection", 2,
-                 ["protective", 1], ["Investigate Outbreaks"]],
+UPGRADE_LIST = ["OPERATION", [Operation("Investigate Outbreaks", "Search For Local Disease Outbreaks", 4,
+                              [], [])],
 
-                ["Emergency Care", "Field Operatives help reduce fatality rate", 5,
-                 ["fatality", 1], ["Deploy Field Operatives"]],
+                [Operation("Deploy Field Operatives", "Team to help surveil disease and reduce infection", 2,
+                 ["protective", 1], ["Investigate Outbreaks"])],
 
-                ["Vaccine Research", "Start researching a cure for the disease", 10,
-                 ["research", True, "research_speed", 1]],
+                [Operation("Emergency Care", "Field Operatives help reduce fatality rate", 5,
+                 ["fatality", 1], ["Deploy Field Operatives"])],
+
+                [Operation("Vaccine Research", "Start researching a cure for the disease", 10,
+                 ["research", True, "research_speed", 1], ["Investigate Outbreaks"])],
 
                 "RESPONSE", [Response("Hand Washing", "Reduces infection by promoting hand washing", 6,
                                       SubCategory.Infection_Prevention, ["protective", 1], ["Investigate Outbreaks"])],
@@ -133,8 +136,8 @@ for x in range(len(countries)):
 
 
 def game():
-    gameLoop.run(countries, airport_list, AIRPORT_COUNTRIES)
-
+    variable = gameLoop.run(countries, airport_list, AIRPORT_COUNTRIES)
+    print(variable)
 
 # gameLoop.run(countries, airport_list, AIRPORT_COUNTRIES)
 
