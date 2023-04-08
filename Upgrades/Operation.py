@@ -7,7 +7,7 @@ class Operation(Upgrade):
         super().__init__(name, description, cost, stats, requirements)
 
     def action(self):
-        for i in range(len(self.stats)) :
+        for i in range(len(self.stats)):
             if self.stats == StatIncrease.Infection_Rate:
                 print("Global reduction for infection rates")
             elif self.stats == StatIncrease.Fatality_Rate:
