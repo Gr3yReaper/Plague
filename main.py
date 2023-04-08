@@ -6,6 +6,7 @@ from threading import Thread
 
 from Upgrades.Response import *
 from Upgrades.Operation import *
+from Upgrades.Quarantine import *
 
 BASE_ACTIVITY = 20
 AIRPORT_COUNTRIES = ["UK", "Russia", "Russia 2"]
@@ -18,7 +19,7 @@ AIRPORT_DETAILS = [["UK", ["Russia", "Russia 2"], BASE_ACTIVITY], ["Russia", ["U
 # Upgrades need to be added in list in form of
 # Upgrade_Tree_Name(Title, Description, Cost, [Stats], [Unlock_Requirements]
 
-UPGRADE_LIST = ["OPERATION", [Operation("Investigate Outbreaks", "Search For Local Disease Outbreaks", 4,
+UPGRADE_LIST = [[Operation("Investigate Outbreaks", "Search For Local Disease Outbreaks", 4,
                               [], [])],
 
                 [Operation("Deploy Field Operatives", "Team to help surveil disease and reduce infection", 2,
@@ -39,20 +40,20 @@ UPGRADE_LIST = ["OPERATION", [Operation("Investigate Outbreaks", "Search For Loc
                 [Operation("Field Research", "Field Operatives help research cure", 7,
                            ["research_speed", 1], ["Vaccine Research"])],
 
-                [Operation("Furlough Schemes", "Reduce financial stress by paying staff wages, decreased non-compliance", 7
-                           ["non-compliance", 1], ["Investigate Outbreaks"])],
+                [Operation("Furlough Schemes", "Reduce financial stress by paying staff wages, decreased non-compliance",
+                           7, ["non-compliance", 1], ["Investigate Outbreaks"])],
 
-                [Operation("Adapt Society", "Provide resources to accommodate new normal for education and wellness", 10
+                [Operation("Adapt Society", "Provide resources to accommodate new normal for education and wellness", 10,
                            ["non-compliance", 1], ["Furlough Schemes"])],
 
-                [Operation("Mortgage and Rent Relief", "Freeze mortgage and rent payments and ban evictions", 13
+                [Operation("Mortgage and Rent Relief", "Freeze mortgage and rent payments and ban evictions", 13,
                            ["non-compliance", 1], ["Adapt Society"])],
 
-                [Operation("National Stimulus", "Implement tax cuts and business loans, decreases non-compliance", 18
+                [Operation("National Stimulus", "Implement tax cuts and business loans, decreases non-compliance", 18,
                            ["non-compliance", 1], ["Mortgage and Rent Relief"])],
 
                 [Operation("Authority 1",
-                           "Brief world leaders on importance of response to pandemic, slightly increased authority", 7
+                           "Brief world leaders on importance of response to pandemic, slightly increased authority", 7,
                            ["authority", 1], ["Investigate Outbreaks"])],
 
                 [Operation("Authority 2",
@@ -60,13 +61,13 @@ UPGRADE_LIST = ["OPERATION", [Operation("Investigate Outbreaks", "Search For Loc
                            13, ["authority", 2], ["Authority 1"])],
 
                 [Operation("Authority 3",
-                           "Emphasis world threat of pandemic, massively increased authority", 18
+                           "Emphasis world threat of pandemic, massively increased authority", 18,
                            ["authority", 3], ["Investigate Outbreaks"])],
 
                 # Could add fake news to freeze authority but will be left for now.
 
-                "RESPONSE", [Response("Hand Washing", "Reduces infection by promoting hand washing", 6,
-                                      SubCategory.Infection_Prevention, ["protective", 1], ["Investigate Outbreaks"])],
+                [Response("Hand Washing", "Reduces infection by promoting hand washing", 6,
+                          SubCategory.Infection_Prevention, ["protective", 1], ["Investigate Outbreaks"])],
 
                 [Response("Public Awareness",
                           "Promote personal responsibility for hygiene, reduces infection", 3,
@@ -145,8 +146,33 @@ UPGRADE_LIST = ["OPERATION", [Operation("Investigate Outbreaks", "Search For Loc
 
                 [Response("Triage Protocols", "Strict criteria to be administered, reduced fatality but lose authority", 6,
                           SubCategory.Death_Prevention, ["fatality", 1, "authority_loss", 2],
-                          ["New Infrastructure"])]
-                # Potentially add border surveilance to reduce chance of flight taking place from countries with infected.
+                          ["New Infrastructure"])],
+
+                # Quarantine consists of "Title", "Description", Cost, "List of countries", "Attributes", "Requirements"
+
+                [Quarantine("North America Alert", "Announce concerns on disease spread", 1,
+                            ["USA, Canada, Greenland, Mexico, Caribbean"], ["awareness", 0.5],
+                            ["Investigate Outbreaks"])],
+
+                [Quarantine("South America Alert", "Announce concerns on disease spread", 1,
+                            ["Brazil, Argentina, Colombia, Peru, Bolivia, C.America"], ["awareness", 0.5],
+                            ["Investigate Outbreaks"])],
+
+                # Cutting the amount of countries down
+
+                [Quarantine("Europe Alert", "Announce concerns on disease spread", 1,
+                            ["UK, France, Italy, Germany, Spain, Poland, Sweden, Norway, Iceland"],
+                            ["awareness", 0.5], ["Investigate Outbreaks"])],
+
+                [Quarantine("Asia-Pacific Alert", "Announce concerns on disease spread", 1,
+                            ["Japan, Korea, China, India, Iran, Pakistan"], ["awareness", 0.5],
+                            ["Investigate Outbreaks"])],
+
+                [Quarantine("Africa Alert", "Announce concerns on disease spread", 1,
+                            ["Egypt, Libya, Algeria, Morocco"], ["awareness", 0.5],
+                            ["Investigate Outbreaks"])],
+
+
                 ]
 
 PORT_COUNTRIES = ["UK", "Russia"]
