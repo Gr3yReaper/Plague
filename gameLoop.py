@@ -4,10 +4,13 @@ from Country import *
 from AirPort import *
 
 
-def run(countries, airport_list, airport_countries):
+def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrades, tokens):
     pygame.init()
     clock = pygame.time.Clock()
     display = pygame.display.set_mode((300, 300))
+
+    for x in bought_upgrades:
+        print("Upgrade has been applied")
 
     while not any([n.get_infected() >= 1000000 for n in countries]):
         # Calculates the new infected numbers for each country then updates the objects
@@ -26,6 +29,7 @@ def run(countries, airport_list, airport_countries):
                 for y in range(len(countries)):
                     if countries[y].get_name() == flight_log[x] and countries[y].get_infected() == 0:
                         countries[y].update_infected(1)  # Set as 1 for now to start infection
+                        tokens = tokens + 1
                         print("Plane left: " + airport_countries[x] + ", Headed for: " + countries[y].get_name())
 
         # One airport/ boat per country for now
@@ -37,10 +41,22 @@ def run(countries, airport_list, airport_countries):
 
             if event.type == pygame.KEYDOWN:
                 # This then elaborates it further by checking for the specific key pressed.
-                if event.key == pygame.K_p:
-                    print("The p key has been pressed")
+                if event.key == pygame.K_0:
+                    tokens = UPGRADE_LIST[0].purchase(tokens)
+                    # print("You have " + str(tokens) + " left")
                     # airport_list = "" using this can shut down airports
+                elif event.key == pygame.K_1:
+                    tokens = UPGRADE_LIST[1].purchase(tokens)
+                elif event.key == pygame.K_2:
+                    tokens = UPGRADE_LIST[2].purchase(tokens)
+                elif event.key == pygame.K_3:
+                    tokens = UPGRADE_LIST[3].purchase(tokens)
                 else:
                     print("a key has been pressed")
                     countries[0].update_activity(Activity.RESTRICTED)
+
+        # Token acquisition system, crude and needs more added to it.
+        tokens = tokens + 0.1
+        tokens = round(tokens, 1)
+        print(tokens)
         clock.tick(10)

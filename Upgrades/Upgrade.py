@@ -54,6 +54,8 @@ class Upgrade:
     def purchase(self, current):
         if self.cost > current:
             print("Insufficient credits, did not buy upgrade")
+        elif self.unlocked:
+            print("Upgrade already unlocked")
         else:
             print("Upgrade unlocked")
             current = current - self.cost
