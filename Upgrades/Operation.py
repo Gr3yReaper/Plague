@@ -7,15 +7,16 @@ class Operation(Upgrade):
         super().__init__(name, description, cost, stats, requirements)
 
     def action(self):
-        for i in range(len(self.stats)):
-            if self.stats == StatIncrease.Infection_Rate:
+        i = 0
+        while i < len(self.stats):
+            if self.stats[i] == StatIncrease.Infection_Rate:
                 print("Global reduction for infection rates")
-            elif self.stats == StatIncrease.Fatality_Rate:
+            elif self.stats[i] == StatIncrease.Fatality_Rate:
                 print("Global reduction for fatality rates")
-            elif self.stats == StatIncrease.Research_Speed:
+            elif self.stats[i] == StatIncrease.Research_Speed:
                 print("Research speed has been increased")
-            elif self.stats == StatIncrease.Authority:
+            elif self.stats[i] == StatIncrease.Authority:
                 print("Authority has been increased")
             else:
                 print("Unknown increase")
-
+            i = i + 2

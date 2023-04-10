@@ -8,11 +8,12 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
     pygame.init()
     clock = pygame.time.Clock()
     display = pygame.display.set_mode((300, 300))
+    research = 0
 
     for x in bought_upgrades:
         print("Upgrade has been applied")
 
-    while not any([n.get_infected() >= 1000000 for n in countries]):
+    while research < 100 and not any([n.get_infected() >= 1000000 for n in countries]):
         # Calculates the new infected numbers for each country then updates the objects
         # Work out rough chance of said airport travelling, randomly pick location etc
         # At 1 million should have 5% research without any other upgrades.
@@ -41,22 +42,33 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
 
             if event.type == pygame.KEYDOWN:
                 # This then elaborates it further by checking for the specific key pressed.
+                tokens_before = tokens
                 if event.key == pygame.K_0:
                     tokens = UPGRADE_LIST[0].purchase(tokens)
+                    upgrade_bought = 0
+
                     # print("You have " + str(tokens) + " left")
                     # airport_list = "" using this can shut down airports
                 elif event.key == pygame.K_1:
                     tokens = UPGRADE_LIST[1].purchase(tokens)
+                    upgrade_bought = 1
                 elif event.key == pygame.K_2:
                     tokens = UPGRADE_LIST[2].purchase(tokens)
+                    upgrade_bought = 2
                 elif event.key == pygame.K_3:
                     tokens = UPGRADE_LIST[3].purchase(tokens)
+                    upgrade_bought = 3
                 else:
                     print("a key has been pressed")
                     countries[0].update_activity(Activity.RESTRICTED)
-
+                if tokens_before != tokens:
+                    bought_upgrades.append(UPGRADE_LIST[upgrade_bought])
+                    UPGRADE_LIST[upgrade_bought].action()
         # Token acquisition system, crude and needs more added to it.
-        tokens = tokens + 0.1
+        tokens = tokens + 0.2 #Might need to be increased
+        research = research + 0.1
+        research = round(research, 1)
         tokens = round(tokens, 1)
         print(tokens)
+        print(bought_upgrades)
         clock.tick(10)
