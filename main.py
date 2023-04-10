@@ -29,16 +29,16 @@ UPGRADE_LIST = [Operation("Investigate Outbreaks", "Search For Local Disease Out
                            ["fatality", 1], ["Deploy Field Operatives"]),
 
                 Operation("Vaccine Research", "Start researching a cure for the disease", 10,
-                           ["research", True, "research_speed", 1], ["Investigate Outbreaks"]),
+                           ["research", True, "research_speed", 0.1], ["Investigate Outbreaks"]),
 
                 Operation("Accelerated Research", "Round the clock working, research speed increased", 9,
-                           ["research_speed", 1], ["Vaccine Research"]),
+                           ["research_speed", 0.1], ["Vaccine Research"]),
 
                 Operation("Global Research Treaty", "Transparent information exchange between countries", 21,
-                           ["research_speed", 2], ["Accelerated Research"]),
+                           ["research_speed", 0.2], ["Accelerated Research"]),
 
                 Operation("Field Research", "Field Operatives help research cure", 7,
-                           ["research_speed", 1], ["Vaccine Research"]),
+                           ["research_speed", 0.1], ["Vaccine Research"]),
 
                 Operation("Furlough Schemes",
                            "Reduce financial stress by paying staff wages, decreased non-compliance",
@@ -148,7 +148,7 @@ UPGRADE_LIST = [Operation("Investigate Outbreaks", "Search For Local Disease Out
                 Response("Advanced Antibiotics",
                           "Experimental treatments to target pathogen, reduced fatality and increased research speed",
                           11,
-                          SubCategory.Death_Prevention, ["fatality", 1, "research_speed", 1],
+                          SubCategory.Death_Prevention, ["fatality", 1, "research_speed", 0.1],
                           ["IV Therapy", "Treatment Efficiencies"]),
 
                 Response("Triage Protocols", "Strict criteria to be administered, reduced fatality but lose authority",

@@ -51,13 +51,25 @@ class Upgrade:
     def set_unlocked(self, unlocked):
         self.unlocked = unlocked
 
-    def purchase(self, current):
+    def purchase(self, current, current_upgrades):
+        requirements_met = False
+        if len(self.requirements) == 0:
+            requirements_met = True
+        else:
+            for x in current_upgrades:
+                for y in self.requirements:
+                    if x.get_name() == y:
+                        requirements_met = True
+                        break
+
         if self.cost > current:
             print("Insufficient credits, did not buy upgrade")
         elif self.unlocked:
             print("Upgrade already unlocked")
+        elif not requirements_met:
+            print("Need to purchase upgrades before this one")
         else:
-            print("Upgrade unlocked")
+            print("Upgrade: " + self.name + " unlocked")
             current = current - self.cost
             self.unlocked = True
         return current

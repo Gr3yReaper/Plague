@@ -9,6 +9,7 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
     clock = pygame.time.Clock()
     display = pygame.display.set_mode((300, 300))
     research = 0
+    research_speed = 0
 
     for x in bought_upgrades:
         print("Upgrade has been applied")
@@ -44,31 +45,31 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
                 # This then elaborates it further by checking for the specific key pressed.
                 tokens_before = tokens
                 if event.key == pygame.K_0:
-                    tokens = UPGRADE_LIST[0].purchase(tokens)
+                    tokens = UPGRADE_LIST[0].purchase(tokens, bought_upgrades)
                     upgrade_bought = 0
-
                     # print("You have " + str(tokens) + " left")
                     # airport_list = "" using this can shut down airports
                 elif event.key == pygame.K_1:
-                    tokens = UPGRADE_LIST[1].purchase(tokens)
+                    tokens = UPGRADE_LIST[1].purchase(tokens, bought_upgrades)
                     upgrade_bought = 1
                 elif event.key == pygame.K_2:
-                    tokens = UPGRADE_LIST[2].purchase(tokens)
+                    tokens = UPGRADE_LIST[2].purchase(tokens, bought_upgrades)
                     upgrade_bought = 2
                 elif event.key == pygame.K_3:
-                    tokens = UPGRADE_LIST[3].purchase(tokens)
+                    tokens = UPGRADE_LIST[3].purchase(tokens, bought_upgrades)
                     upgrade_bought = 3
                 else:
                     print("a key has been pressed")
                     countries[0].update_activity(Activity.RESTRICTED)
                 if tokens_before != tokens:
                     bought_upgrades.append(UPGRADE_LIST[upgrade_bought])
-                    UPGRADE_LIST[upgrade_bought].action()
+                    research_speed = UPGRADE_LIST[upgrade_bought].action(research_speed)
         # Token acquisition system, crude and needs more added to it.
-        tokens = tokens + 0.2 #Might need to be increased
-        research = research + 0.1
+
+        tokens = tokens + 0.2 # Might need to be increased
+        research = research + research_speed # 0.1 is base speed
         research = round(research, 1)
         tokens = round(tokens, 1)
         print(tokens)
-        print(bought_upgrades)
+        print(research)
         clock.tick(10)
