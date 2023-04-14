@@ -6,6 +6,18 @@ import keyToUpgrade
 from Upgrades.Upgrade import StatIncrease
 
 
+def update_countries(countries, stats):
+    while len(stats) != 0:
+        if stats[0] == StatIncrease.Protective:
+            for x in range(len(countries)):
+                new_value = countries[x].get_protective() + stats[1]
+                new_value = round(new_value, 1)
+                countries[x].update_protective(new_value)
+        stats.pop(1)
+        stats.pop(0)
+    return countries
+
+
 def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrades, tokens, authority, non_compliance,
         fatality_rate):
 
@@ -25,7 +37,7 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
         upgrades_to_apply = []
         flight_log = ([n.get_airport().flight(n.get_infected()) for n in airport_list])
         new_infected = [diseaseGrowth.update(n.get_infected(), n.get_activity().value,
-                                             n.get_awareness().value, n.get_protective().value,
+                                             n.get_awareness().value, n.get_protective(),
                                              n.get_medical().value) for n in countries]
         # Modified algorithm to add people as infected
         for x in range(len(countries)):
@@ -84,9 +96,7 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
                 upgrade_keys = ['n']
             elif keys[pygame.K_a]:
                 upgrade_keys = ['a']
-            #else:
-                #print("a key has been pressed")
-                #countries[0].update_activity(Activity.RESTRICTED)
+            #countries[0].update_activity(Activity.RESTRICTED)
 
             if len(upgrade_keys) == 1:
                 upgrade_number = keyToUpgrade.key_conversion(upgrade_keys[0])
@@ -116,6 +126,13 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
                             authority = 100
                         else:
                             authority = round(authority, 1)
+                    elif upgrades_to_apply[0] == StatIncrease.Non_Compliance:
+                        non_compliance = non_compliance - upgrades_to_apply[1]
+                        # Need to explore how to actually implement
+                    elif upgrades_to_apply[0] == StatIncrease.Protective:
+                        # Call a method to change all countries protective value
+                        stat_list = [StatIncrease.Protective, upgrades_to_apply[1]]
+                        countries = update_countries(countries, stat_list)
                     else:
                         print("Different upgrade from research")
                     upgrades_to_apply.pop(1)

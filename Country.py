@@ -23,14 +23,6 @@ class Awareness(Enum):
     ALL = 1.0
 
 
-class Protective(Enum):
-    NONE = 0.0
-    LITTLE = 0.2
-    MODERATE = 0.3
-    HEAVY = 0.4
-    MANDATORY = 0.5
-
-
 class Medical(Enum):
     POOR = 0.1
     FEW = 0.2
