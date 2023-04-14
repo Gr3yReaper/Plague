@@ -2,11 +2,12 @@ from enum import Enum
 
 
 class StatIncrease(Enum):
+    # Corresponding base values for increase.
     Infection_Rate = 1
-    Research_Speed = 2
-    Fatality_Rate = 3
+    Research_Speed = 0.1
+    Fatality_Rate = -5
     Authority = 4
-    # Unsure if Authority and non-compliance should be different
+    Non_Compliance = 5
 
 
 class Upgrade:
