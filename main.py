@@ -56,15 +56,15 @@ UPGRADE_LIST = [Operation("Investigate Outbreaks", "Search For Local Disease Out
 
                 Operation("Authority 1",
                           "Brief world leaders on importance of response to pandemic, slightly increased authority", 7,
-                          [StatIncrease.Authority, 1], ["Investigate Outbreaks"]),
+                          [StatIncrease.Authority, 1.1], ["Investigate Outbreaks"]),
 
                 Operation("Authority 2",
                           "Make pleas for global co-operation and coordination to contain pandemic, significant authority increase",
-                          13, [StatIncrease.Authority, 2], ["Authority 1"]),
+                          13, [StatIncrease.Authority, 1.17], ["Authority 1"]),
 
                 Operation("Authority 3",
                           "Emphasis world threat of pandemic, massively increased authority", 18,
-                          [StatIncrease.Authority, 3], ["Investigate Outbreaks"]),
+                          [StatIncrease.Authority, 1.22], ["Authority 2"]),
 
                 # Could add fake news to freeze authority but will be left for now.
                 # Number 14 upgrades below

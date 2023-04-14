@@ -45,7 +45,7 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
         # One airport/ boat per country for now
         # Random chance one will start (pick a random country with a free port/ airport
         # around 0.8% when unaware, 0.5 when slight, 0.3 when aware, 0.1 when reduced, and 0 for lockdown rough values
-        print([n.get_infected() for n in countries])
+        print([n.get_name() + ": " + str(n.get_infected()) for n in countries])
 
         for event in pygame.event.get():
             # This method checks if the event is a pressing of a key (any key)
@@ -84,9 +84,9 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
                 upgrade_keys = ['n']
             elif keys[pygame.K_a]:
                 upgrade_keys = ['a']
-            else:
-                print("a key has been pressed")
-                countries[0].update_activity(Activity.RESTRICTED)
+            #else:
+                #print("a key has been pressed")
+                #countries[0].update_activity(Activity.RESTRICTED)
 
             if len(upgrade_keys) == 1:
                 upgrade_number = keyToUpgrade.key_conversion(upgrade_keys[0])
@@ -94,6 +94,7 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
             elif len(upgrade_keys) == 2:
                 upgrade_number = keyToUpgrade.key_conversion(upgrade_keys[0]) + upgrade_keys[1]
                 upgrade_chosen = True
+
             if upgrade_chosen:
                 print(upgrade_number)
                 tokens = UPGRADE_LIST[upgrade_number].purchase(tokens, bought_upgrades)
@@ -107,14 +108,18 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
                 while len(upgrades_to_apply) != 0:
                     if upgrades_to_apply[0] == StatIncrease.Research_Speed:
                         research_speed = research_speed + upgrades_to_apply[1]
-                        upgrades_to_apply.pop(1)
-                        upgrades_to_apply.pop(0)
                     elif upgrades_to_apply[0] == StatIncrease.Fatality_Rate:
                         fatality_rate = fatality_rate + upgrades_to_apply[1]
-                        upgrades_to_apply.pop(1)
-                        upgrades_to_apply.pop(0)
+                    elif upgrades_to_apply[0] == StatIncrease.Authority:
+                        authority = authority * upgrades_to_apply[1]
+                        if authority > 100:
+                            authority = 100
+                        else:
+                            authority = round(authority, 1)
                     else:
                         print("Different upgrade from research")
+                    upgrades_to_apply.pop(1)
+                    upgrades_to_apply.pop(0)
 
         # Token acquisition system, crude and needs more added to it.
 
@@ -122,8 +127,9 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
         research = research + research_speed # 0.1 is base speed
         research = round(research, 1)
         tokens = round(tokens, 1)
-        print(tokens)
-        print(research)
+        print("Current tokens are: " + str(tokens))
+        print("Research is at: " + str(research))
         print("Authority is at: " + str(authority))
         print("Fatality is at: " + str(fatality_rate))
+        print()
         clock.tick(10)

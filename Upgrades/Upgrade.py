@@ -3,10 +3,10 @@ from enum import Enum
 
 class StatIncrease(Enum):
     # Corresponding base values for increase.
-    Infection_Rate = 1
+    Infection_Rate = 10 #Change later
     Research_Speed = 0.1
     Fatality_Rate = -5
-    Authority = 4
+    Authority = 1
     Non_Compliance = 5
 
 

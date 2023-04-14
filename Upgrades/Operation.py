@@ -30,6 +30,9 @@ class Operation(Upgrade):
                 upgrades.append(research_speed)
             elif self.stats[i] == StatIncrease.Authority:
                 print("Authority has been increased")
+                authority = self.stats[i+1] * StatIncrease.Authority.value
+                upgrades.append(StatIncrease.Authority)
+                upgrades.append(authority)
             else:
                 print("Unknown increase")
             i = i + 2
