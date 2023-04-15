@@ -69,29 +69,29 @@ UPGRADE_LIST = [Operation("Investigate Outbreaks", "Search For Local Disease Out
                 # Could add fake news to freeze authority but will be left for now.
                 # Number 14 upgrades below
                 Response("Hand Washing", "Reduces infection by promoting hand washing", 6,
-                         SubCategory.Infection_Prevention, [StatIncrease.Protective, 1], ["Investigate Outbreaks"]),
+                         SubCategory.Infection_Prevention, [StatIncrease.Protective, 1], ["Investigate Outbreaks"]), #3
 
                 Response("Public Awareness",
                          "Promote personal responsibility for hygiene, reduces infection", 3,
-                         SubCategory.Infection_Prevention, ["awareness", 1], ["Investigate Outbreaks"]),
+                         SubCategory.Infection_Prevention, [StatIncrease.Awareness, 1], ["Investigate Outbreaks"]),#4
 
                 Response("Disinfectant Supplies",
                          "Distribute bleach and cleaning supplies, reduce infection", 5,
-                         SubCategory.Infection_Prevention, [StatIncrease.Protective, 1], ["Investigate Outbreaks"]),
+                         SubCategory.Infection_Prevention, [StatIncrease.Protective, 1], ["Investigate Outbreaks"]), #5
 
                 Response("Self-Isolation",
                          "Symptomatic people can not interact with others, reduce infection", 5,
-                         SubCategory.Infection_Prevention, [StatIncrease.Protective, 1], ["Hand Washing", "Public Awareness"]),
+                         SubCategory.Infection_Prevention, [StatIncrease.Protective, 1], ["Hand Washing", "Public Awareness"]), #6
 
                 Response("Social Distancing",
-                         "People need to stay 2m away from each other, reduce infection, increased non-compliance",
-                         9, SubCategory.Infection_Prevention, ["awareness", 1, StatIncrease.Protective, 1,
+                         "People need to stay 2m away from each other, reduce infection, increased non-compliance", #7
+                         9, SubCategory.Infection_Prevention, [StatIncrease.Awareness, 1, StatIncrease.Protective, 1,
                                                                StatIncrease.Non_Compliance, 1],
                          ["Self-Isolation"]),
 
                 Response("Local Lockdowns",
-                         "Force lockdowns in areas, reduce infection significantly but increase non-compliance",
-                         20, SubCategory.Infection_Prevention, [StatIncrease.Protective, 2, "awareness", 1,
+                         "Force lockdowns in areas, reduce infection significantly but increase non-compliance", #8
+                         20, SubCategory.Infection_Prevention, [StatIncrease.Protective, 2, StatIncrease.Awareness, 1,
                                                                 StatIncrease.Non_Compliance, 1],
                          ["Social Distancing"]),
 
@@ -105,8 +105,8 @@ UPGRADE_LIST = [Operation("Investigate Outbreaks", "Search For Local Disease Out
                          13, SubCategory.Infection_Prevention, [StatIncrease.Protective, 1,
                                                                 StatIncrease.Fatality_Rate, 0.5], ["PPE Package 1"]),
 
-                Response("Mask Wearing", "People must wear masks, significantly reduce infection", 1,
-                         SubCategory.Infection_Prevention, [StatIncrease.Protective, 1, "awareness", 2],
+                Response("Mask Wearing", "People must wear masks, significantly reduce infection", 1, # 22 -> 9
+                         SubCategory.Infection_Prevention, [StatIncrease.Protective, 1, StatIncrease.Awareness, 2],
                          ["PPE Package 2", "Social Distancing"]),
 
                 Response("Emergency Preparation", "Brief staff and stock supplies reduce fatality", 8,
@@ -131,7 +131,7 @@ UPGRADE_LIST = [Operation("Investigate Outbreaks", "Search For Local Disease Out
                          SubCategory.Death_Prevention, [StatIncrease.Fatality_Rate, 1, StatIncrease.Protective, -0.5],
                          ["Emergency Preparation"]),
 
-                Response("Critical Care", "Brief staff on best practices, reduced fatality", 5,
+                Response("Critical Care", "Brief staff on best practices, reduced fatality", 5, #28
                          SubCategory.Death_Prevention, [StatIncrease.Fatality_Rate, 1],
                          ["Emergency Preparations", "Clinical Treatment"]),
 
@@ -162,25 +162,25 @@ UPGRADE_LIST = [Operation("Investigate Outbreaks", "Search For Local Disease Out
                 # Quarantine consists of "Title", "Description", Cost, "List of countries", "Attributes", "Requirements"
 
                 Quarantine("North America Alert", "Announce concerns on disease spread", 1,
-                           ["USA, Canada, Greenland, Mexico, Caribbean"], ["awareness", 0.5],
+                           ["USA, Canada, Greenland, Mexico, Caribbean"], [StatIncrease.Awareness, 0.5],
                            ["Investigate Outbreaks"]),
 
                 Quarantine("South America Alert", "Announce concerns on disease spread", 1,
-                           ["Brazil, Argentina, Colombia, Peru, Bolivia, C.America"], ["awareness", 0.5],
+                           ["Brazil, Argentina, Colombia, Peru, Bolivia, C.America"], [StatIncrease.Awareness, 0.5],
                            ["Investigate Outbreaks"]),
 
                 # Cutting the amount of countries down
 
                 Quarantine("Europe Alert", "Announce concerns on disease spread", 1,
                            ["UK, France, Italy, Germany, Spain, Poland, Sweden, Norway, Iceland"],
-                           ["awareness", 0.5], ["Investigate Outbreaks"]),
+                           [StatIncrease.Awareness, 0.5], ["Investigate Outbreaks"]),
 
                 Quarantine("Asia-Pacific Alert", "Announce concerns on disease spread", 1,
-                           ["Japan, Korea, China, India, Iran, Pakistan"], ["awareness", 0.5],
+                           ["Japan, Korea, China, India, Iran, Pakistan"], [StatIncrease.Awareness, 0.5],
                            ["Investigate Outbreaks"]),
 
                 Quarantine("Africa Alert", "Announce concerns on disease spread", 1,
-                           ["Egypt, Libya, Algeria, Morocco"], ["awareness", 0.5],
+                           ["Egypt, Libya, Algeria, Morocco"], [StatIncrease.Awareness, 0.5],
                            ["Investigate Outbreaks"]),
 
                 ]
@@ -194,11 +194,11 @@ FATALITY_RATE = 80 # Starting amount of people who die from the disease
 
 PORT_COUNTRIES = ["UK", "Russia"]
 
-countries = [Country("UK", 6733000000, 1, Activity.SLIGHT, Awareness.SLIGHT,
+countries = [Country("UK", 6733000000, 1, Activity.UNRESTRICTED, 0.6,
                      0.2, Medical.HIGH),
-             Country("Russia", 1434000000, 0, Activity.UNRESTRICTED, Awareness.UNAWARE,
+             Country("Russia", 1434000000, 0, Activity.UNRESTRICTED, 0.5,
                      0.1, Medical.ADVANCED),
-             Country("Russia 2", 1434000000, 0, Activity.UNRESTRICTED, Awareness.UNAWARE,
+             Country("Russia 2", 1434000000, 0, Activity.UNRESTRICTED, 0.5,
                      0.1, Medical.ADVANCED)]
 
 airport_list = []

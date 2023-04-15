@@ -13,6 +13,11 @@ def update_countries(countries, stats):
                 new_value = countries[x].get_protective() + stats[1]
                 new_value = round(new_value, 1)
                 countries[x].update_protective(new_value)
+        elif stats[0] == StatIncrease.Awareness:
+            for x in range(len(countries)):
+                new_value = countries[x].get_awareness() + stats[1]
+                new_value = round(new_value, 2)
+                countries[x].update_awareness(new_value)
         stats.pop(1)
         stats.pop(0)
     return countries
@@ -37,7 +42,7 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
         upgrades_to_apply = []
         flight_log = ([n.get_airport().flight(n.get_infected()) for n in airport_list])
         new_infected = [diseaseGrowth.update(n.get_infected(), n.get_activity().value,
-                                             n.get_awareness().value, n.get_protective(),
+                                             n.get_awareness(), n.get_protective(),
                                              n.get_medical().value) for n in countries]
         # Modified algorithm to add people as infected
         for x in range(len(countries)):
@@ -45,8 +50,7 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
             if total_infected > countries[x].get_able_to_be_infected():
                 new_infected[x] = countries[x].get_able_to_be_infected() - countries[x].get_infected()
             countries[x].update_infected(new_infected[x])
-            if (countries[x].get_population() * 0.00001) < new_infected[x] or \
-                    countries[x].get_able_to_be_infected() == countries[x].get_infected():
+            if (countries[x].get_population() * 0.00001) < new_infected[x]:
                 authority = authority - 0.1
                 authority = round(authority, 1)
 
@@ -72,6 +76,9 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
             if keys[pygame.K_EQUALS]:
                 print("Simulation ended")
                 return
+            elif keys[pygame.K_q] and keys[pygame.K_1] and keys[pygame.l]:
+                if UPGRADE_LIST[35].get_unlocked():
+                    UPGRADE_LIST[35].close_land_access(tokens)
             elif keys[pygame.K_r] and keys[pygame.K_1]:
                 upgrade_keys = ['r', 1]
             elif keys[pygame.K_r] and keys[pygame.K_2]:
@@ -88,6 +95,16 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
                 upgrade_keys = ['a', 1]
             elif keys[pygame.K_n] and keys[pygame.K_2]:
                 upgrade_keys = ['a', 2]
+            elif keys[pygame.K_p] and keys[pygame.K_1]:
+                upgrade_keys = ['p', 1]
+            elif keys[pygame.K_q] and keys[pygame.K_1]:
+                upgrade_keys = ['q', 1]
+            elif keys[pygame.K_q] and keys[pygame.K_2]:
+                upgrade_keys = ['q', 2]
+            elif keys[pygame.K_q] and keys[pygame.K_3]:
+                upgrade_keys = ['q', 3]
+            elif keys[pygame.K_q] and keys[pygame.K_4]:
+                upgrade_keys = ['q', 4]
             elif keys[pygame.K_0]:
                 upgrade_keys = [0]
             elif keys[pygame.K_1]:
@@ -100,6 +117,47 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
                 upgrade_keys = ['n']
             elif keys[pygame.K_a]:
                 upgrade_keys = ['a']
+            elif keys[pygame.K_3]:
+                upgrade_keys = [3]
+            elif keys[pygame.K_4]:
+                upgrade_keys = [4]
+            elif keys[pygame.K_5]:
+                upgrade_keys = [5]
+            elif keys[pygame.K_6]:
+                upgrade_keys = [6]
+            elif keys[pygame.K_7]:
+                upgrade_keys = [7]
+            elif keys[pygame.K_8]:
+                upgrade_keys = [8]
+            elif keys[pygame.K_p]:
+                upgrade_keys = ['p']
+            elif keys[pygame.K_9]:
+                upgrade_keys = [9]
+            elif keys[pygame.K_z]:
+                upgrade_keys = ['z']
+            elif keys[pygame.K_x]:
+                upgrade_keys = ['x']
+            elif keys[pygame.K_c]:
+                upgrade_keys = ['c']
+            elif keys[pygame.K_v]:
+                upgrade_keys = ['v']
+            elif keys[pygame.K_b]:
+                upgrade_keys = ['b']
+            elif keys[pygame.K_m]:
+                upgrade_keys = ['m']
+            elif keys[pygame.K_s]:
+                upgrade_keys = ['s']
+            elif keys[pygame.K_d]:
+                upgrade_keys = ['d']
+            elif keys[pygame.K_f]:
+                upgrade_keys = ['f']
+            elif keys[pygame.K_g]:
+                upgrade_keys = ['g']
+            elif keys[pygame.K_h]:
+                upgrade_keys = ['h']
+            elif keys[pygame.K_q]:
+                upgrade_keys = ['q']
+
             #countries[0].update_activity(Activity.RESTRICTED)
 
             if len(upgrade_keys) == 1:
@@ -136,6 +194,9 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
                     elif upgrades_to_apply[0] == StatIncrease.Protective:
                         # Call a method to change all countries protective value
                         stat_list = [StatIncrease.Protective, upgrades_to_apply[1]]
+                        countries = update_countries(countries, stat_list)
+                    elif upgrades_to_apply[0] == StatIncrease.Awareness:
+                        stat_list = [StatIncrease.Awareness, upgrades_to_apply[1]]
                         countries = update_countries(countries, stat_list)
                     else:
                         print("Different upgrade from research")

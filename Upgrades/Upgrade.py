@@ -5,6 +5,7 @@ class StatIncrease(Enum):
     # Corresponding base values for increase.
     Infection_Rate = 10 #Change later
     Protective = 0.2
+    Awareness = 0.15
     Research_Speed = 0.1
     Fatality_Rate = -5
     Authority = 1
@@ -84,3 +85,42 @@ class Upgrade:
         else:
             print("Failure as upgrade has not been purchased")
         return current
+
+    def action(self):
+        upgrades = []
+        i = 0
+
+        while i < len(self.stats):
+            value = 0
+            if self.stats[i] == "research":
+                print("Research has now started")
+            elif self.stats[i] == StatIncrease.Protective:
+                print("Update all countries in terms of protective equipment")
+                value = self.stats[i + 1] * StatIncrease.Protective.value
+                upgrades.append(StatIncrease.Protective)
+            elif self.stats[i] == StatIncrease.Non_Compliance:
+                print("Non-compliance has been reduced")
+                value = self.stats[i + 1] * StatIncrease.Non_Compliance.value
+                upgrades.append(StatIncrease.Non_Compliance)
+            elif self.stats[i] == StatIncrease.Fatality_Rate:
+                value = self.stats[i + 1] * StatIncrease.Fatality_Rate.value
+                upgrades.append(StatIncrease.Fatality_Rate)
+            elif self.stats[i] == StatIncrease.Research_Speed:
+                print("Research speed has been increased")
+                value = self.stats[i + 1] * StatIncrease.Research_Speed.value
+                upgrades.append(StatIncrease.Research_Speed)
+            elif self.stats[i] == StatIncrease.Authority:
+                print("Authority has been increased")
+                value = self.stats[i+1] * StatIncrease.Authority.value
+                upgrades.append(StatIncrease.Authority)
+            elif self.stats[i] == StatIncrease.Awareness:
+                print("Global awareness for disease has been increased")
+                value = self.stats[i+1] * StatIncrease.Awareness.value
+                upgrades.append(StatIncrease.Awareness)
+
+            if value != 0:
+                upgrades.append(value)
+            i = i + 2
+
+        return upgrades
+    

@@ -5,22 +5,12 @@ from AirPort import *
 
 class Activity(Enum):
     UNRESTRICTED = 1.5
-    SLIGHT = 1.2
-    LOW_RESTRICTION = 0.8
-    RESTRICTED = 0.5
-    LOCKDOWN = 0
+    AIRPORT_RESTRICTIONS = 1.0
+    LAND_RESTRICTIONS = 0.7
+    LOCKDOWN = 0.2
 
 # These numbers will need to be tweaked, at the moment highest division is 2.2, maybe can adjust based on infected value
 # for testing though it is fine.
-
-
-class Awareness(Enum):
-    UNAWARE = 0.5
-    SLIGHT = 0.6
-    SOME = 0.7
-    MOST = 0.8
-    HEAVILY = 0.9
-    ALL = 1.0
 
 
 class Medical(Enum):
