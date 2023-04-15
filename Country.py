@@ -34,6 +34,7 @@ class Medical(Enum):
 
 
 PERIOD = 14  # How long until no longer positive
+Immunity = 20
 
 
 class Country:
@@ -48,6 +49,8 @@ class Country:
         self.history = Queue(maxsize=PERIOD)
         self.history.put(infected)
         self.airport = None
+        self.able_to_be_infected = population
+        self.immune_queue = Queue(maxsize=Immunity)
 
     def get_name(self):
         return self.name
@@ -73,12 +76,16 @@ class Country:
     def get_airport(self):
         return self.airport
 
+    def get_able_to_be_infected(self):
+        return self.able_to_be_infected
+
     def update_infected(self, infected):
         self.infected = self.infected + infected
         if self.history.full():
             not_infected = self.history.get()
             self.history.put(infected)
             self.infected = self.infected - not_infected
+            self.update_immune(not_infected)
         else:
             self.history.put(infected)
 
@@ -99,3 +106,13 @@ class Country:
 
     def set_airport(self, airport):
         self.airport = airport
+
+    def update_immune(self, immunity):
+        self.able_to_be_infected = self.able_to_be_infected - immunity
+        if self.immune_queue.full():
+            not_immune = self.immune_queue.get()
+            self.immune_queue.put(immunity)
+            self.able_to_be_infected = self.able_to_be_infected + not_immune
+        else:
+            self.immune_queue.put(immunity)
+

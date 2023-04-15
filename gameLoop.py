@@ -41,8 +41,12 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
                                              n.get_medical().value) for n in countries]
         # Modified algorithm to add people as infected
         for x in range(len(countries)):
+            total_infected = new_infected[x] + countries[x].get_infected()
+            if total_infected > countries[x].get_able_to_be_infected():
+                new_infected[x] = countries[x].get_able_to_be_infected() - countries[x].get_infected()
             countries[x].update_infected(new_infected[x])
-            if (countries[x].get_population() * 0.00001) < new_infected[x]:
+            if (countries[x].get_population() * 0.00001) < new_infected[x] or \
+                    countries[x].get_able_to_be_infected() == countries[x].get_infected():
                 authority = authority - 0.1
                 authority = round(authority, 1)
 
