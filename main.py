@@ -185,7 +185,7 @@ UPGRADE_LIST = [Operation("Investigate Outbreaks", "Search For Local Disease Out
 
                 ]
 
-# Can modify to add upgrades from the start.
+# Can modify to add upgrades from the start.=
 bought_upgrades = []
 TOKENS = 15
 AUTHORITY = 100

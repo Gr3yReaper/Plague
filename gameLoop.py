@@ -76,9 +76,63 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
             if keys[pygame.K_EQUALS]:
                 print("Simulation ended")
                 return
-            elif keys[pygame.K_q] and keys[pygame.K_1] and keys[pygame.l]:
+            elif keys[pygame.K_1] and keys[pygame.K_l]:
                 if UPGRADE_LIST[35].get_unlocked():
                     UPGRADE_LIST[35].close_land_access(tokens)
+                    break
+            elif keys[pygame.K_1] and keys[pygame.K_f]:
+                if UPGRADE_LIST[35].get_unlocked():
+                    UPGRADE_LIST[35].close_air_access(tokens)
+                    break
+            elif keys[pygame.K_1] and keys[pygame.K_e]:
+                if UPGRADE_LIST[35].get_unlocked():
+                    UPGRADE_LIST[35].lockdown(tokens)
+                    break
+            elif keys[pygame.K_2] and keys[pygame.K_l]:
+                if UPGRADE_LIST[36].get_unlocked():
+                    UPGRADE_LIST[36].close_land_access(tokens)
+                    break
+            elif keys[pygame.K_2] and keys[pygame.K_f]:
+                if UPGRADE_LIST[36].get_unlocked():
+                    UPGRADE_LIST[36].close_air_access(tokens)
+                    break
+            elif keys[pygame.K_2] and keys[pygame.K_e]:
+                if UPGRADE_LIST[36].get_unlocked():
+                    UPGRADE_LIST[36].lockdown(tokens)
+                    break
+            elif keys[pygame.K_3] and keys[pygame.K_l]:
+                if UPGRADE_LIST[37].get_unlocked():
+                    UPGRADE_LIST[37].close_land_access(tokens)
+                    break
+            elif keys[pygame.K_3] and keys[pygame.K_f]:
+                if UPGRADE_LIST[37].get_unlocked():
+                    UPGRADE_LIST[37].close_air_access(tokens)
+                    break
+            elif keys[pygame.K_3] and keys[pygame.K_e]:
+                if UPGRADE_LIST[37].get_unlocked():
+                    UPGRADE_LIST[37].lockdown(tokens)
+                    break
+            elif keys[pygame.K_4] and keys[pygame.K_l]:
+                if UPGRADE_LIST[38].get_unlocked():
+                    UPGRADE_LIST[38].close_land_access(tokens)
+                    break
+            elif keys[pygame.K_4] and keys[pygame.K_f]:
+                if UPGRADE_LIST[38].get_unlocked():
+                    UPGRADE_LIST[38].close_air_access(tokens)
+                    break
+            elif keys[pygame.K_4] and keys[pygame.K_e]:
+                if UPGRADE_LIST[38].get_unlocked():
+                    UPGRADE_LIST[38].lockdown(tokens)
+                    break
+            elif keys[pygame.K_q] and keys[pygame.K_l]:
+                UPGRADE_LIST[34].close_land_access(tokens)
+                break
+            elif keys[pygame.K_q] and keys[pygame.K_f]:
+                UPGRADE_LIST[34].close_air_access(tokens)
+                break
+            elif keys[pygame.K_q] and keys[pygame.K_e]:
+                UPGRADE_LIST[34].lockdown(tokens)
+                break
             elif keys[pygame.K_r] and keys[pygame.K_1]:
                 upgrade_keys = ['r', 1]
             elif keys[pygame.K_r] and keys[pygame.K_2]:
