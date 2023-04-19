@@ -15,6 +15,19 @@ class Quarantine(Upgrade):
     SHUTDOWN_LAND_COST = 2
     LOCKDOWN = 5
 
+    def get_affected_countries(self):
+        return self.affected_countries
+
+    def get_airports_closed(self):
+        return self.airports_closed
+
+    def get_land_closed(self):
+        return self.land_closed
+
+    def get_lockdown(self):
+        lockdown_stats = [self.current_lockdown, self.airports_closed, self.land_closed]
+        return lockdown_stats
+
     def close_air_access(self, current):
         # Parse in countries and set to corresponding value
         # Also could update flight log in this class

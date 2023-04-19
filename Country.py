@@ -7,6 +7,7 @@ class Activity(Enum):
     UNRESTRICTED = 1.5
     AIRPORT_RESTRICTIONS = 1.0
     LAND_RESTRICTIONS = 0.7
+    BOTH_RESTRICTED = 0.5
     LOCKDOWN = 0.2
 
 # These numbers will need to be tweaked, at the moment highest division is 2.2, maybe can adjust based on infected value
@@ -20,7 +21,7 @@ class Medical(Enum):
     MIDDLE = 0.4
     ADVANCED = 0.5
     HIGH = 0.6
-    MASSIVE = 0.7
+    EXCELLENT = 0.7
 
 
 PERIOD = 14  # How long until no longer positive

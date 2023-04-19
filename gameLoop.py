@@ -18,6 +18,69 @@ def update_countries(countries, stats):
                 new_value = countries[x].get_awareness() + stats[1]
                 new_value = round(new_value, 2)
                 countries[x].update_awareness(new_value)
+        elif stats[0] == "airport":
+            list_affected = stats[1]
+            # True means trying to open airports
+            if stats[2]:
+                for x in range(len(countries)):
+                    if countries[x] in list_affected:
+                        current = countries[x].get_activity()
+                        if current == Activity.AIRPORT_RESTRICTIONS:
+                            countries[x].update_activity(Activity.UNRESTRICTED)
+                        elif current == Activity.BOTH_RESTRICTED:
+                            countries[x].update_activity(Activity.LAND_RESTRICTIONS)
+                        elif current == Activity.LOCKDOWN:
+                            countries[x].update_activity(Activity.BOTH_RESTRICTED)
+            # Else try to close
+            else:
+                for x in range(len(countries)):
+                    if countries[x] in list_affected:
+                        current = countries[x].get_activity()
+                        if current == Activity.UNRESTRICTED:
+                            countries[x].update_activity(Activity.AIRPORT_RESTRICTIONS)
+                        elif current == Activity.LAND_RESTRICTIONS:
+                            countries[x].update_activity(Activity.BOTH_RESTRICTED)
+            stats.pop(2)
+        elif stats[0] == "land":
+            list_affected = stats[1]
+            if stats[2]:
+                for x in range(len(countries)):
+                    if countries[x] in list_affected:
+                        current = countries[x].get_activity()
+                        if current == Activity.LAND_RESTRICTIONS:
+                            countries[x].update_activity(Activity.UNRESTRICTED)
+                        elif current == Activity.BOTH_RESTRICTED:
+                            countries[x].update_activity(Activity.AIRPORT_RESTRICTIONS)
+                        elif current == Activity.LOCKDOWN:
+                            countries[x].update_activity(Activity.BOTH_RESTRICTED)
+            else:
+                for x in range(len(countries)):
+                    if countries[x] in list_affected:
+                        current = countries[x].get_activity()
+                        if current == Activity.AIRPORT_RESTRICTIONS:
+                            countries[x].update_activity(Activity.BOTH_RESTRICTED)
+                        elif current == Activity.UNRESTRICTED:
+                            countries[x].update_activity(Activity.LAND_RESTRICTIONS)
+            stats.pop(2)
+        elif stats[0] == "lockdown":
+            list_affected = stats[1]
+            lockdown_stats = stats[2]
+            if lockdown_stats[0]:
+                for x in range(len(countries)):
+                    if countries[x] in list_affected:
+                        if lockdown_stats[1] and lockdown_stats[2]:
+                            countries[x].update_activity(Activity.BOTH_RESTRICTED)
+                        elif lockdown_stats[1] and not lockdown_stats[2]:
+                            countries[x].update_activity(Activity.AIRPORT_RESTRICTIONS)
+                        elif lockdown_stats[2] and not lockdown_stats[1]:
+                            countries[x].update_activity(Activity.LAND_RESTRICTIONS)
+                        else:
+                            countries[x].update_activity(Activity.UNRESTRICTED)
+            else:
+                for x in range(len(countries)):
+                    if countries[x] in list_affected:
+                        countries[x].update_activity(Activity.LOCKDOWN)
+            stats.pop(2)
         stats.pop(1)
         stats.pop(0)
     return countries
@@ -78,61 +141,139 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
                 return
             elif keys[pygame.K_1] and keys[pygame.K_l]:
                 if UPGRADE_LIST[35].get_unlocked():
-                    UPGRADE_LIST[35].close_land_access(tokens)
+                    tokens = UPGRADE_LIST[35].close_land_access(tokens)
+                    closed_land = UPGRADE_LIST[35].get_land_closed()
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[35].get_affected_countries()
+                        stats = ["land", list_countries, closed_land]
+                        countries = update_countries(countries, stats)
                     break
             elif keys[pygame.K_1] and keys[pygame.K_f]:
                 if UPGRADE_LIST[35].get_unlocked():
-                    UPGRADE_LIST[35].close_air_access(tokens)
+                    closed_airports = UPGRADE_LIST[35].get_airports_closed()
+                    tokens = UPGRADE_LIST[35].close_air_access(tokens)
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[35].get_affected_countries()
+                        stats = ["airport", list_countries, closed_airports]
+                        countries = update_countries(countries, stats)
                     break
             elif keys[pygame.K_1] and keys[pygame.K_e]:
                 if UPGRADE_LIST[35].get_unlocked():
-                    UPGRADE_LIST[35].lockdown(tokens)
+                    lockdown_stats = UPGRADE_LIST[35].get_lockdown()
+                    tokens = UPGRADE_LIST[35].lockdown(tokens)
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[35].get_affected_countries()
+                        stats = ["lockdown", list_countries, lockdown_stats]
+                        countries = update_countries(countries, stats)
                     break
             elif keys[pygame.K_2] and keys[pygame.K_l]:
                 if UPGRADE_LIST[36].get_unlocked():
-                    UPGRADE_LIST[36].close_land_access(tokens)
+                    tokens = UPGRADE_LIST[36].close_land_access(tokens)
+                    closed_land = UPGRADE_LIST[36].get_land_closed()
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[36].get_affected_countries()
+                        stats = ["land", list_countries, closed_land]
+                        countries = update_countries(countries, stats)
                     break
             elif keys[pygame.K_2] and keys[pygame.K_f]:
                 if UPGRADE_LIST[36].get_unlocked():
-                    UPGRADE_LIST[36].close_air_access(tokens)
+                    closed_airports = UPGRADE_LIST[36].get_airports_closed()
+                    tokens = UPGRADE_LIST[36].close_air_access(tokens)
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[36].get_affected_countries()
+                        stats = ["airport", list_countries, closed_airports]
+                        countries = update_countries(countries, stats)
                     break
             elif keys[pygame.K_2] and keys[pygame.K_e]:
                 if UPGRADE_LIST[36].get_unlocked():
-                    UPGRADE_LIST[36].lockdown(tokens)
+                    lockdown_stats = UPGRADE_LIST[36].get_lockdown()
+                    tokens = UPGRADE_LIST[36].lockdown(tokens)
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[36].get_affected_countries()
+                        stats = ["lockdown", list_countries, lockdown_stats]
+                        countries = update_countries(countries, stats)
                     break
             elif keys[pygame.K_3] and keys[pygame.K_l]:
                 if UPGRADE_LIST[37].get_unlocked():
-                    UPGRADE_LIST[37].close_land_access(tokens)
+                    tokens = UPGRADE_LIST[37].close_land_access(tokens)
+                    closed_land = UPGRADE_LIST[37].get_land_closed()
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[37].get_affected_countries()
+                        stats = ["land", list_countries, closed_land]
+                        countries = update_countries(countries, stats)
                     break
             elif keys[pygame.K_3] and keys[pygame.K_f]:
                 if UPGRADE_LIST[37].get_unlocked():
-                    UPGRADE_LIST[37].close_air_access(tokens)
+                    closed_airports = UPGRADE_LIST[37].get_airports_closed()
+                    tokens = UPGRADE_LIST[37].close_air_access(tokens)
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[37].get_affected_countries()
+                        stats = ["airport", list_countries, closed_airports]
+                        countries = update_countries(countries, stats)
                     break
             elif keys[pygame.K_3] and keys[pygame.K_e]:
                 if UPGRADE_LIST[37].get_unlocked():
-                    UPGRADE_LIST[37].lockdown(tokens)
+                    lockdown_stats = UPGRADE_LIST[37].get_lockdown()
+                    tokens = UPGRADE_LIST[37].lockdown(tokens)
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[37].get_affected_countries()
+                        stats = ["lockdown", list_countries, lockdown_stats]
+                        countries = update_countries(countries, stats)
                     break
             elif keys[pygame.K_4] and keys[pygame.K_l]:
                 if UPGRADE_LIST[38].get_unlocked():
-                    UPGRADE_LIST[38].close_land_access(tokens)
+                    tokens = UPGRADE_LIST[38].close_land_access(tokens)
+                    closed_land = UPGRADE_LIST[38].get_land_closed()
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[38].get_affected_countries()
+                        stats = ["land", list_countries, closed_land]
+                        countries = update_countries(countries, stats)
                     break
             elif keys[pygame.K_4] and keys[pygame.K_f]:
                 if UPGRADE_LIST[38].get_unlocked():
-                    UPGRADE_LIST[38].close_air_access(tokens)
+                    closed_airports = UPGRADE_LIST[38].get_airports_closed()
+                    tokens = UPGRADE_LIST[38].close_air_access(tokens)
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[38].get_affected_countries()
+                        stats = ["airport", list_countries, closed_airports]
+                        countries = update_countries(countries, stats)
                     break
             elif keys[pygame.K_4] and keys[pygame.K_e]:
                 if UPGRADE_LIST[38].get_unlocked():
-                    UPGRADE_LIST[38].lockdown(tokens)
+                    lockdown_stats = UPGRADE_LIST[38].get_lockdown()
+                    tokens = UPGRADE_LIST[38].lockdown(tokens)
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[38].get_affected_countries()
+                        stats = ["lockdown", list_countries, lockdown_stats]
+                        countries = update_countries(countries, stats)
                     break
             elif keys[pygame.K_q] and keys[pygame.K_l]:
-                UPGRADE_LIST[34].close_land_access(tokens)
-                break
+                if UPGRADE_LIST[34].get_unlocked():
+                    tokens = UPGRADE_LIST[34].close_land_access(tokens)
+                    closed_land = UPGRADE_LIST[34].get_land_closed()
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[34].get_affected_countries()
+                        stats = ["land", list_countries, closed_land]
+                        countries = update_countries(countries, stats)
+                    break
             elif keys[pygame.K_q] and keys[pygame.K_f]:
-                UPGRADE_LIST[34].close_air_access(tokens)
-                break
+                if UPGRADE_LIST[34].get_unlocked():
+                    closed_airports = UPGRADE_LIST[34].get_airports_closed()
+                    tokens = UPGRADE_LIST[34].close_air_access(tokens)
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[34].get_affected_countries()
+                        stats = ["airport", list_countries, closed_airports]
+                        countries = update_countries(countries, stats)
+                    break
             elif keys[pygame.K_q] and keys[pygame.K_e]:
-                UPGRADE_LIST[34].lockdown(tokens)
-                break
+                if UPGRADE_LIST[34].get_unlocked():
+                    lockdown_stats = UPGRADE_LIST[34].get_lockdown()
+                    tokens = UPGRADE_LIST[34].lockdown(tokens)
+                    if tokens != tokens_before:
+                        list_countries = UPGRADE_LIST[34].get_affected_countries()
+                        stats = ["lockdown", list_countries, lockdown_stats]
+                        countries = update_countries(countries, stats)
+                    break
             elif keys[pygame.K_r] and keys[pygame.K_1]:
                 upgrade_keys = ['r', 1]
             elif keys[pygame.K_r] and keys[pygame.K_2]:
