@@ -219,10 +219,17 @@ def game():
     print(variable)
 
 
+def simulation():
+    print("Simulation noises")
+
 # gameLoop.run(countries, airport_list, AIRPORT_COUNTRIES)
 
 
-game_thread = Thread(target=game)
+simulation_or_game = input("Enter 1 for simulation or 2 to play: ")
+if simulation_or_game == "2":
+    game_thread = Thread(target=game)
+else:
+    game_thread = Thread(target=simulation)
 
 game_thread.start()
 game_thread.join()
