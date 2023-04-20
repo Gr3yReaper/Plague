@@ -409,4 +409,4 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
         print("Authority is at: " + str(authority))
         print("Fatality is at: " + str(fatality_rate))
         print()
-        clock.tick(10)
+        clock.tick(8)
