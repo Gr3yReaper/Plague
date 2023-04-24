@@ -2,6 +2,7 @@ from Country import *
 from AirPort import *
 
 import gameLoop
+import simulation
 from threading import Thread
 
 from Upgrades.Response import *
@@ -219,8 +220,10 @@ def game():
     print(variable)
 
 
-def simulation():
+def simulationRun():
     print("Simulation noises")
+    simulation.run(countries, airport_list, AIRPORT_COUNTRIES, UPGRADE_LIST, bought_upgrades, TOKENS,
+                   AUTHORITY, NON_COMPLIANCE, FATALITY_RATE)
 
 # gameLoop.run(countries, airport_list, AIRPORT_COUNTRIES)
 
@@ -229,7 +232,7 @@ simulation_or_game = input("Enter 1 for simulation or 2 to play: ")
 if simulation_or_game == "2":
     game_thread = Thread(target=game)
 else:
-    game_thread = Thread(target=simulation)
+    game_thread = Thread(target=simulationRun)
 
 game_thread.start()
 game_thread.join()
