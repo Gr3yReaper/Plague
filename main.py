@@ -222,10 +222,25 @@ def game():
 
 def simulationRun():
     print("Simulation noises")
-    simulation.run(countries, airport_list, AIRPORT_COUNTRIES, UPGRADE_LIST, bought_upgrades, TOKENS,
+    awarded = simulation.run(countries, airport_list, AIRPORT_COUNTRIES, UPGRADE_LIST, bought_upgrades, TOKENS,
                    AUTHORITY, NON_COMPLIANCE, FATALITY_RATE)
+    result = award(awarded[0], awarded[1], awarded[2])
+    print("This simulation was awarded the following value: " + str(result))
+    print("The actions taken are: ")
+    for x in awarded[3]:
+        print(x.get_name())
 
-# gameLoop.run(countries, airport_list, AIRPORT_COUNTRIES)
+
+def award(countries, authority, research):
+    if authority <= 0:
+        authority = -70
+    total = authority + research
+    infected_total = 0
+    for x in countries:
+        country_total = x.get_infected() / x.get_population()
+        infected_total = infected_total + country_total
+    awarded = total * infected_total
+    return awarded
 
 
 simulation_or_game = input("Enter 1 for simulation or 2 to play: ")
