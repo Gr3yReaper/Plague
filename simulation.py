@@ -1,6 +1,7 @@
 # This class needs to be the same as gameLoop but instead use if statements to make decisions
 import diseaseGrowth
 import pygame
+import random
 from Country import *
 from AirPort import *
 import keyToUpgrade
@@ -87,17 +88,50 @@ def update_countries(countries, stats):
     return countries
 
 
+def upgrade_builder(bought_upgrades, UPGRADE_LIST, goal_upgrade):
+    result = [0, []]
+    if goal_upgrade in bought_upgrades:
+        # Returns empty as have the upgrade
+        return result
+    else:
+        requirements = goal_upgrade.get_requirements()
+        upgrade_req = []
+        # Convert requirements string to upgrade
+        while len(requirements) != 0:
+            for x in UPGRADE_LIST:
+                if requirements[0] == x.get_name():
+                    upgrade_req.append(x)
+                    requirements.pop(0)
+                    break
+        if len(upgrade_req) == 2:
+            lhs = upgrade_builder(bought_upgrades, UPGRADE_LIST, upgrade_req[0])
+            rhs = upgrade_builder(bought_upgrades, UPGRADE_LIST, upgrade_req[1])
+            if lhs[0] < rhs[0]:
+                result = lhs
+                result[0] = result[0] + upgrade_req[0].get_cost()
+                result[1].append(upgrade_req[0])
+            else:
+                result = rhs
+                result[0] = result[0] + upgrade_req[1].get_cost()
+                result[1].append(upgrade_req[1])
+        if len(upgrade_req) == 1:
+            result = upgrade_builder(bought_upgrades, UPGRADE_LIST, upgrade_req[0])
+            result[0] = result[0] + upgrade_req[0].get_cost()
+            result[1].append(upgrade_req[0])
+        return result
+
+
 def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrades, tokens, authority, non_compliance,
         fatality_rate):
 
     pygame.init()
     clock = pygame.time.Clock()
-    display = pygame.display.set_mode((300, 300))
     research = 0
     research_speed = 0
     current_authority_upgrade = 11
     current_research_upgrade = keyToUpgrade.key_conversion('r')
     new_upgrades = "none"
+    purch_planned_upgrades = "none"
     planned_upgrades = []
 
     for x in bought_upgrades:
@@ -140,15 +174,16 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
         if not UPGRADE_LIST[0].get_unlocked() and tokens >= UPGRADE_LIST[0].get_cost():
             tokens = UPGRADE_LIST[0].purchase(tokens, bought_upgrades)
             new_upgrades = 0
-        if authority < 85 and tokens >= UPGRADE_LIST[current_authority_upgrade].get_cost() and current_authority_upgrade < 14:
+        elif authority < 85 and tokens >= UPGRADE_LIST[current_authority_upgrade].get_cost() and current_authority_upgrade < 14:
             tokens = UPGRADE_LIST[current_authority_upgrade].purchase(tokens, bought_upgrades)
             new_upgrades = current_authority_upgrade
             current_authority_upgrade = current_authority_upgrade + 1
-        if len(planned_upgrades) != 0:
+        elif len(planned_upgrades) != 0:
             if tokens >= planned_upgrades[0].get_cost():
-                tokens = UPGRADE_LIST[planned_upgrades[0]].purchase(tokens, bought_upgrades)
-                new_upgrades = planned_upgrades[0]
-                new_upgrades.pop(0)
+                if not planned_upgrades[0].get_unlocked():
+                    tokens = planned_upgrades[0].purchase(tokens, bought_upgrades)
+                    purch_planned_upgrades = planned_upgrades[0]
+                planned_upgrades.pop(0)
         else:
             # This in only taken if the AI doesn't have a plan yet
             if tokens >= UPGRADE_LIST[current_research_upgrade].get_cost() and \
@@ -156,11 +191,23 @@ def run(countries, airport_list, airport_countries, UPGRADE_LIST, bought_upgrade
                 tokens = UPGRADE_LIST[current_research_upgrade].purchase(tokens, bought_upgrades)
                 new_upgrades = current_research_upgrade
                 current_research_upgrade = current_research_upgrade + 1
+            else:
+                decided_upgrade = random.randint(1, len(UPGRADE_LIST) - 1)
+                while decided_upgrade == 11 or decided_upgrade == 12 or decided_upgrade == 13 or UPGRADE_LIST[decided_upgrade].get_unlocked():
+                    decided_upgrade = random.randint(1, len(UPGRADE_LIST) - 1)
+                planned_upgrades = upgrade_builder(bought_upgrades, UPGRADE_LIST, UPGRADE_LIST[decided_upgrade])
+                planned_upgrades = planned_upgrades[1]
+                planned_upgrades.append(UPGRADE_LIST[decided_upgrade])
 
         if new_upgrades != "none":
             upgrades_to_apply = UPGRADE_LIST[new_upgrades].action()
             bought_upgrades.append(UPGRADE_LIST[new_upgrades])
             new_upgrades = "none"
+
+        if purch_planned_upgrades != "none":
+            upgrades_to_apply = purch_planned_upgrades.action()
+            bought_upgrades.append(purch_planned_upgrades)
+            purch_planned_upgrades = "none"
 
         if len(upgrades_to_apply) != 0:
             while len(upgrades_to_apply) != 0:
